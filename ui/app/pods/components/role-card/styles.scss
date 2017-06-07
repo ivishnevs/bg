@@ -1,0 +1,37 @@
+& {
+  border-radius: 2px;
+  margin: 10px 30px;
+  min-width: 150px;
+  min-height: 100px;
+  text-align: center;
+
+  .role-card-overlay {
+
+    background-color: rgba(154, 118, 102, 0.5);
+    padding: 40px 20px;
+
+    .role-title {
+      color: whitesmoke;
+      text-transform: uppercase;
+    }
+  }
+
+  .enabled {
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+
+    &:hover {
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+      background-color: rgba(159, 121, 103, 0.6);
+    }
+  }
+
+  .disabled {
+    background-color: rgba(17, 17, 17, 0.44);
+
+    .role-title {
+      color: #6a6a6a;
+    }
+  }
+}

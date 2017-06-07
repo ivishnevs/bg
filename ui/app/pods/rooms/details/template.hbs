@@ -1,0 +1,55 @@
+{{bread-crumbs tagName="ol" outputStyle="bootstrap" linkable=true}}
+
+<div class="col-md-12 jumbotron">
+  {{#if isGameOpen}}
+    {{outlet}}
+  {{else}}
+    <h2>Выберите игру</h2>
+    <table class="table table-bordered table-hover choose-game-table">
+      <thead>
+        <tr>
+          <th>Статус</th>
+          <th>Игра</th>
+          <th>Игроков</th>
+          <th>Текущий ход</th>
+          <th>Текущий штраф</th>
+          <th>Дата создания</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each games as |game index|}}
+          <tr {{action "gameSelected" game.id game.status}} class="{{unless (is-active-game game) "disabled-gamer"}}">
+            <td>
+              {{game-status currentStep=game.currentStep stepsNumber=game.stepsNumber}}
+            </td>
+            <td>
+              Игра {{get-length model.games index}}
+            </td>
+            <td>
+              {{game.occupiedPlaces}}/{{game.gamerCount}}
+              {{#bs-tooltip placement="bottom"}}
+                {{#each game.gamers as |gamer|}}
+                  {{role-name gamer.role game.gamerCount}}: {{if gamer.isActive '+' '-'}} <br>
+                {{/each}}
+              {{/bs-tooltip}}
+            </td>
+            <td>
+              {{game-step currentStep=game.currentStep stepsNumber=game.stepsNumber}}
+            </td>
+            <td>
+              {{game.totalPenalty}}
+              {{#bs-tooltip placement="bottom"}}
+                {{#each game.gamers as |gamer|}}
+                  {{role-name gamer.role game.gamerCount}}: {{gamer.penalty}} <br>
+                {{/each}}
+              {{/bs-tooltip}}
+            </td>
+            <td>
+              {{date game.CreatedAt true}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
+</div>

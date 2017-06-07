@@ -1,0 +1,92 @@
+<div class="game">
+  <div class="gamer-gameplay-header">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-12">
+          <span class="role-title">{{role-name model.role model.gamerMetadata.gamerCount}}</span>
+        </div>
+        {{#each gamers as |gamer index|}}
+          {{#if index}}
+            <div class="roles-indicator-divider"></div>
+          {{/if}}
+          <span class="role-{{gamer.role}} roles-indicator {{if gamer.isStepCompleted 'indicator-ready'}} {{if (is-current-gamer model.role gamer.role) 'current-gamer-indicator'}}">
+            <i class="fa fa-circle" aria-hidden="true">
+              {{bs-tooltip placement="bottom" title=(if (is-current-gamer model.role gamer.role) 'Вы' (role-name gamer.role model.gamerMetadata.gamerCount))}}
+            </i>
+          </span>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-md-6">
+      <h3 class="game-card-title">
+        <span class="current-step-field">Ход: {{model.gamerMetadata.currentStep}}/{{model.gamerMetadata.stepsNumber}}</span>
+      </h3>
+      <div class="gamer-gameplay">
+        <div class="row">
+          <div class="current-order-field">
+            Спрос: <span class="field-value">{{model.currentOrder}}</span>
+          </div>
+          <div class="my-order-field {{if isOrderMade 'field-disabled'}}">
+            Мой заказ: {{input value=order type="number" autofocus=true disabled=(if isOrderMade true) min=0 max=1000}}
+            {{#if makeOrderTask.isIdle}}
+              <div class="make-order-btn" onclick={{perform makeOrderTask}}>{{if isOrderMade "Ожидайте" "Заказать"}}</div>
+            {{else}}
+              <div class="make-order-btn">{{fa-icon "spinner" spin=true size="fa-lg"}}</div>
+            {{/if}}
+          </div>
+        </div>
+        <div class="row validation-error-field">
+          {{#if validationError}}
+            <div class="validation-error-message">
+              {{validationErrorMessage}}
+            </div>
+          {{/if}}
+        </div>
+        <div class="row">
+          <div class="current-debt-field">
+            Долг: <span class="field-value">{{model.debt}}</span>
+          </div>
+          <div class="storage-field">
+            Склад: <span class="field-value">{{model.storage}}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h3 class="game-card-title">
+        Статистика
+      </h3>
+      <hr>
+      <table class="table gamer-table">
+        <thead>
+        <tr>
+          <th>Ход</th>
+          <th>Спрос</th>
+          <th>Долг</th>
+          <th>Заказ</th>
+          <th>Склад</th>
+          <th>Штраф</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each statsOfLastSteps as |stats|}}
+          <tr>
+            <td>{{stats.step}}</td>
+            <td>{{stats.currentOrder}}</td>
+            <td>{{stats.debt}}</td>
+            <td>{{stats.gamerOrder}}</td>
+            <td>{{stats.storage}}</td>
+            <td><strong>{{stats.penalty}}</strong></td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

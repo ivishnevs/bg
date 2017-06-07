@@ -1,0 +1,65 @@
+& {
+  word-wrap: normal;
+
+  .transition-link {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  .admin-settings {
+    display: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+    margin-bottom: 17px;
+    padding-bottom: 17px;
+    //td {
+    input {
+      width: 50px;
+      border: none;
+    }
+    //}
+  }
+
+  .unit-input {
+    border: 1px solid rgba(43, 43, 43, 0.33);
+    text-align: center;
+    outline: none;
+    width: 75px;
+    border-radius: 0;
+    margin: -3px;
+    padding: 3px 5px;
+
+    &.game-status {
+      width: 100px;
+    }
+  }
+
+  .btn {
+    margin-top: -3px;
+    height: 30px;
+    width: 100px;
+    border: 1px solid #3c3f41;
+    border-radius: 1px;
+    background-color: #3c3f41;
+    color: whitesmoke;
+    font-weight: normal !important;
+    margin-left: 5px;
+
+    &.reset-btn:hover {
+      background-color: rgba(61, 171, 85, 0.53) !important;
+    }
+
+    &.save-btn:hover {
+      background-color: rgba(61, 171, 85, 0.53) !important;
+    }
+    &.delete-btn {
+      background-color: rgba(187, 63, 60, 0.77) !important;
+    }
+    &.cancel-btn:hover {
+      background-color: rgba(187, 63, 60, 0.77) !important;
+    }
+  }
+
+  hr {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+  }
+}

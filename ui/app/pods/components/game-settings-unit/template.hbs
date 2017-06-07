@@ -1,0 +1,24 @@
+{{#if gameExist}}
+  <tr class="admin-settings">
+    <td>{{input class="unit-input gamer-status" type="text" value=status readonly=true}}</td>
+    <td>Игра {{gameCount}}</td>
+    <td>{{input class="unit-input" type="number" min=2 max=50 value=currentGamerCount readonly=canChangeGamerCount}}</td>
+    <td>{{input class="unit-input" type="text" value=occupiedPlaces readonly=true}}</td>
+    <td>{{input class="unit-input" type="text" value=currentStep readonly=true}}</td>
+    <td>{{input class="unit-input" type="number" min=10 max=500 value=currentStepsNumber}}</td>
+    <td>{{input class="unit-input" type="text" value=totalPenalty readonly=true}}</td>
+    <td>{{input class="unit-input" type="number" min=0 max=100000 step=0.1 value=currentHoldingCost}}</td>
+    <td>{{input class="unit-input" type="number" min=0 max=100000 step=0.1 value=currentBackorderCost}}</td>
+    <td>{{input class="unit-input" type="number" min=1 max=1 value=currentDemandPattern}}</td>
+    <td>{{date createdAt false}}</td>
+    <td>
+      <span class="transition-link" {{action "transitionToStatistics"}}><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+      <i class="fa fa-repeat" aria-hidden="true" {{action "restartGame"}}></i>
+      <i class="fa fa-trash" aria-hidden="true" {{action "deleteGame"}}></i>
+      {{#if currentGameSettingsChanged}}
+        <i class="fa fa-check" aria-hidden="true" {{action "saveGameSettings"}}></i>
+        <i class="fa fa-times" aria-hidden="true" {{action "resetGameSettings"}}></i>
+      {{/if}}
+    </td>
+  </tr>
+{{/if}}

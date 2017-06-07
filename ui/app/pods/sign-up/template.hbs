@@ -1,0 +1,13 @@
+{{bread-crumbs tagName="ol" outputStyle="bootstrap" linkable=true}}
+<div class="jumbotron row">
+  <div class="col-md-6 col-md-offset-3">
+    {{#bs-form model=signUpData novalidate=true onSubmit=(action "submit") as |form|}}
+      {{form.element controlType="text" label="Введите полное имя:" placeholder="Maxim Ivanov" property="name" required=true}}
+      {{form.element controlType="email" label="Введите вашу почту:" placeholder="ivanov@example.com" property="email" required=true}}
+      {{form.element controlType="text" label="Введите название вашей комнаты:" placeholder="Комната" property="room" required=true}}
+      {{form.element controlType="password" label="Введите пароль:" placeholder="Пароль" property="password" required=true}}
+      {{form.element controlType="password" label="Повторите пароль:" placeholder="Пароль" property="passwordVerifier" required=true}}
+      {{bs-button block=true defaultText="Зарегистритроваться" type="success" buttonType="submit"}}
+    {{/bs-form}}
+  </div>
+</div>

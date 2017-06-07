@@ -1,0 +1,42 @@
+{{bread-crumbs tagName="ol" outputStyle="bootstrap" linkable=true}}
+<div class="col-md-12 jumbotron">
+  <h2>
+    Выберите комнату
+  </h2>
+  <div class="rooms-search-bar">
+    <div class="search-icon"><i class="fa fa-lg fa-search" aria-hidden="true"></i></div>
+    {{input
+      class='search-input'
+      placeholder='или начните печатать название...'
+      autofocus=true
+      value=searchTerm
+      key-up="searchInputUpPressHandler"
+    }}
+  </div>
+  {{#if filteredRooms}}
+  <table class="table table-bordered table-hover choose-room-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Название комнаты</th>
+        <th>Владелец</th>
+        <th>Дата создания</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each filteredRooms as |room index|}}
+          <tr {{action "roomSelected" room.id}}>
+            <td>{{increment index}}</td>
+            <td>{{room.name}}</td>
+            <td>{{room.User.name}}</td>
+            <td>{{date room.CreatedAt false}}</td>
+          </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{else}}
+    {{#if searchTerm}}
+      <h3>Комнаты с именем "{{searchTerm}}" не существует!</h3>
+    {{/if}}
+  {{/if}}
+</div>

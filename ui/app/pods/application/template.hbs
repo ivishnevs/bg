@@ -1,0 +1,44 @@
+{{#bs-navbar class="navbar navbar-fixed-top" fluid=fluid as |navbar|}}
+  <div class="navbar-header">
+    {{navbar.toggle}}
+    {{#link-to "start-page" class="navbar-brand"}}BeerGame{{/link-to}}
+  </div>
+  {{#navbar.content}}
+
+    {{#navbar.nav as |nav|}}
+      {{#nav.item}}{{#nav.link-to "about"}}Об игре{{/nav.link-to}}{{/nav.item}}
+    {{/navbar.nav}}
+
+    {{#navbar.nav class="pull-right-custom" as |nav|}}
+        {{#nav.item}}
+          {{#if user.name}}
+            {{#nav.link-to "admin"}}
+              {{user.name}} <i class="fa fa-lg fa-user-circle-o" aria-hidden="true"></i>
+            {{/nav.link-to}}
+          {{else}}
+            {{#nav.link-to "sign-in"}}
+              <i class="fa fa-lg fa-sign-in" aria-hidden="true"></i>
+            {{/nav.link-to}}
+          {{/if}}
+        {{/nav.item}}
+        {{#if user.name}}
+          <li {{action 'signOutHandler'}} role="presentation" class='sign-out-btn'>
+            <a><i class="fa fa-lg fa-sign-out" aria-hidden="true"></i></a>
+          </li>
+        {{/if}}
+    {{/navbar.nav}}
+
+  {{/navbar.content}}
+{{/bs-navbar}}
+
+<div class="container theme-showcase" role="main">
+  {{outlet}}
+</div>
+
+{{#if isReturnToGameShown}}
+  {{#link-to "gamer" api.currentGamerID}}
+    <div class="go-to-game-link">
+      Вернуться в игру
+    </div>
+  {{/link-to}}
+{{/if}}

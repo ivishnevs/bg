@@ -1,0 +1,6 @@
+<div class="role-card-overlay {{title}} {{cardActiveClass}}" {{action "roleSelected"}}>
+  <span class="role-title">{{role-name title gamerCount}}</span>
+  {{#if isCurrentRole}}
+    <div>(уже выбран вами)</div>
+  {{/if}}
+</div>

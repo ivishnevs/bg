@@ -1,0 +1,10 @@
+{{#each gamers as |gamer|}}
+  {{role-card
+    title=gamer.role
+    gamerCount=model.gamerCount
+    isActive=gamer.isActive
+    gamerId=gamer.id
+    gameId=model.id
+    transitionToGame='transitionToGame'
+  }}
+{{/each}}

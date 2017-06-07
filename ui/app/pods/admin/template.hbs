@@ -1,0 +1,101 @@
+<div class="admin-page">
+  <label>Название комнаты: {{input class="room-name-desc-input" type="text" maxlength="20" value=currentRoomName}}</label>
+  {{#if currentRoomNameChanged}}
+    <button {{action "saveRoomName"}}>Сохранить</button>
+    <button {{action "resetRoomName"}}>Отменить</button>
+  {{/if}}
+  <hr>
+
+  <label>Описание комнаты: {{input class="room-name-desc-input" type="text" maxlength="20" value=currentRoomDescription}}</label>
+  {{#if currentRoomDescriptionChanged}}
+    <button {{action "saveRoomDescription"}}>Сохранить</button>
+    <button {{action "resetRoomDescription"}}>Отменить</button>
+  {{/if}}
+  <hr>
+
+  {{#bs-modal-simple
+    open=modal
+    title="Новая игра"
+    closeTitle="Отменить"
+    submitTitle="Создать"
+    closeButton=false
+    fade=true
+    backdrop=true
+    backdropClose=false
+    onSubmit=(action "createGame")
+    onHidden=(action (mut modal) false)
+    renderInPlace=true
+  }}
+    <div class="modal-input">
+      <label>Количество игроков:</label>{{input type="number" min=2 max=50 value=gamerCount}}
+      <label>Продолжительность игры:</label>{{input type="number" min=10 max=500 value=stepsNumber}}
+      <label>Цена реализации:</label>{{input type="number" min=0 max=100000 step=0.1 value=holdingCost}}
+      <label>Цена штрафа:</label>{{input type="number" min=0 max=100000 step=0.1 value=backorderCost}}
+      <label>Модель спроса:</label>{{input type="number" min=1 max=1 value=demandPattern readonly="true"}}
+      <div class="newGameValidation-error-field">
+        {{#each newGameValidationErrors key="msg" as |error|}}
+          {{#if error.msg}}
+            <div class="newGameValidation-error-message">
+              {{error.msg}}
+            </div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  {{/bs-modal-simple}}
+  {{#bs-button class="modal-btn" onClick=(action (mut modal) true)}}Добавить игру{{/bs-button}}
+
+  <table class="table table-bordered table-hover choose-game-table">
+    <thead>
+    <tr>
+      <th>Статус</th>
+      <th>Игра</th>
+      <th>Количество игроков</th>
+      <th>Занято мест</th>
+      <th>Текущий ход</th>
+      <th>Ходов</th>
+      <th>Общий штраф</th>
+      <th>Штраф за склад</th>
+      <th>Штраф за невыполнение</th>
+      <th>Модель</th>
+      <th>Дата создания</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each games as |game index|}}
+      {{game-settings-unit
+        tagName=''
+        id=game.id
+        gameCount=(get-length games index)
+        createdAt=game.CreatedAt
+        status=game.status
+        gamerCount=game.gamerCount
+        occupiedPlaces=game.occupiedPlaces
+        stepsNumber=game.stepsNumber
+        currentStep=game.currentStep
+        totalPenalty=game.totalPenalty
+        holdingCost=game.holdingCost
+        backorderCost=game.backorderCost
+        demandPattern=game.demandPattern
+        index=index
+        validationErrors=validationErrors
+        restartGame = "restartGame"
+        deleteGame = "deleteGame"
+        saveGameSettings = "saveGameSettings"
+        transitionToStatistics=(action "transitionToStatistics")
+      }}
+    {{/each}}
+    </tbody>
+  </table>
+
+  <div class="validation-error-field">
+    {{#each validationErrors key="msg" as |error|}}
+      {{#if error.msg}}
+        <div class="validation-error-message">
+          {{error.msg}}
+        </div>
+      {{/if}}
+    {{/each}}
+  </div>
+</div>
