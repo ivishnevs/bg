@@ -2,8 +2,8 @@
 
 module.exports = function(environment) {
   var ENV = {
-    apiURL: 'http://2dff5fa1.ngrok.io/',
-		WSAPIURL: 'ws://2dff5fa1.ngrok.io/ws',
+    apiURL: '/',
+		WSAPIURL: '/ws',
     modulePrefix: 'ui',
     podModulePrefix: 'ui/pods',
     environment: environment,

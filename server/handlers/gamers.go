@@ -214,7 +214,6 @@ func GamerViewSet(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		gamer.PerformGameFlow(msg.Order)
-		log.Println("Realize the lock")
 		makeOrderMutex.Unlock()
 
 		// notification

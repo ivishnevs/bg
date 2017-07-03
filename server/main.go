@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"fmt"
 	"log"
+	"flag"
 	"./models"
 	"./handlers"
 )
@@ -13,9 +14,19 @@ import (
 import gHandlers "github.com/gorilla/handlers"
 
 func main() {
-	dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable port=32768",
-		"bg", "qwerty", "bgdb")
-	err := models.InitDB(dbinfo)
+	addr := flag.String("addr", "127.0.0.1:8000", "The address for server listening")
+	pgUser := flag.String("pgUser", "bg", "PostgreSQL user name")
+	pgPassword := flag.String("pgPassword", "qwerty", "PostgreSQL user password")
+	pgDBname := flag.String("pgDBname", "bgdb", "PostgreSQL database name")
+
+	pgSSLmode := flag.String("pgSSLmode", "disable", "PostgreSQL sslmode")
+	pgPort := flag.String("pgPort", "32768", "PostgreSQL server port")
+	flag.Parse()
+
+	dbInfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=%s port=%s",
+		*pgUser, *pgPassword, *pgDBname, *pgSSLmode, *pgPort)
+	fmt.Println(dbInfo)
+	err := models.InitDB(dbInfo)
 	if err != nil {
 		panic("Failed to connect database")
 	}
@@ -34,16 +45,16 @@ func main() {
 	r.HandleFunc("/api/v1/accounts/signout/", handlers.SignOutHandler)
 	r.HandleFunc("/api/v1/accounts/current/", handlers.CurrentHandler)
 
-	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("../ui/dist/"))))
+	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("./ui/dist/"))))
 
-	fmt.Println("Listening on: ", "localhost:8080")
+	fmt.Println("Listening on: ", *addr)
 
 	// TODO: investigate CORS, ...
 	methods := []string{"POST", "PUT", "GET", "OPTIONS", "DELETE"}
 	allowMethods := gHandlers.AllowedMethods(methods)
 	allowCreds := gHandlers.AllowCredentials()
 
-	err = http.ListenAndServe("127.0.0.1:8000", gHandlers.LoggingHandler(os.Stdout, gHandlers.CORS(allowMethods, allowCreds)(r)))
+	err = http.ListenAndServe(*addr, gHandlers.LoggingHandler(os.Stdout, gHandlers.CORS(allowMethods, allowCreds)(r)))
 	if err != nil {
 		log.Fatal("Server error", err.Error())
 	}
