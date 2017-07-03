@@ -20,7 +20,7 @@ export default Service.extend({
 	currentChannel: '',
 
 	setupWSConn() {
-	let ws = get(this, 'websockets').socketFor(ENV.WSAPIURL);
+	let ws = get(this, 'websockets').socketFor(`ws://${window.location.host}${ENV.WSAPIURL}`);
 
 		ws.on('open', this.openHandler, this);
 		ws.on('message', this.messageHandler, this);

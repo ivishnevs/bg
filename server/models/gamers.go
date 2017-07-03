@@ -4,7 +4,6 @@ import (
 	"time"
 	"encoding/json"
 	"log"
-	"fmt"
 )
 
 type Gamer struct {
@@ -134,15 +133,12 @@ func ActivateRole(id string) bool {
 func ReleaseNonActiveGamers(timeout time.Duration)  {
 	gamers := []Gamer{}
 	db.Find(&gamers)
-	fmt.Println("ReleaseNonActiveGamers")
 	for _, gamer := range gamers {
 		var gamerActiveTimeout time.Duration = timeout
 		if gamer.IsStepCompleted {
 			gamerActiveTimeout = timeout * time.Duration(2)
 		}
-		fmt.Println(gamerActiveTimeout)
 		if time.Since(gamer.LastAction) > gamerActiveTimeout && gamer.IsActive {
-			fmt.Println(gamer.Role)
 			game := Game{}
 			db.Model(&gamer).Updates(map[string]interface{}{
 				"IsActive": false,
